@@ -25,6 +25,7 @@
 import usb_hid
 import time
 import microcontroller
+from adafruit_hid.mouse import Mouse
 from adafruit_hid.keyboard import Keyboard as AdafruitKeyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 from adafruit_hid.keycode import Keycode
@@ -63,6 +64,7 @@ class PicoKeyboard:
         
         # HID
         self.hid_keyboard = AdafruitKeyboard(usb_hid.devices)
+        self.hid_mouse = Mouse(usb_hid.devices)
         self.hid_keyboard_layout = KeyboardLayoutUS(self.hid_keyboard)
         
         # Runntime
@@ -334,13 +336,23 @@ class Key:
 class Action:
     def __init__(self):
         super().__init__()
-        self.is_pretriggerable = False        
+        self.is_pretriggerable = False
 
     def on_key_down(self, key, controller):
         pass
 
     def on_key_up(self, key, controller):
         pass
+
+class EmitMouseClick(Action):
+    def __init__(self, mouse_code):
+        self.mouse_code = mouse_code
+
+    def on_key_down(self, key, controller):
+        controller.hid_mouse.press(self.mouse_code)
+
+    def on_key_up(self, key, controller):
+        controller.hid_mouse.release(self.mouse_code)
 
 class EmitKeyCodes(Action):
     def __init__(self, key_codes):
