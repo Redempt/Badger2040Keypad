@@ -64,8 +64,8 @@ class PicoKeyboard:
         
         # HID
         self.hid_keyboard = AdafruitKeyboard(usb_hid.devices)
-        self.hid_mouse = Mouse(usb_hid.devices)
         self.hid_keyboard_layout = KeyboardLayoutUS(self.hid_keyboard)
+        # self.hid_mouse = Mouse(usb_hid.devices)
         
         # Runntime
         self.isRunning = False     

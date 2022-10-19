@@ -98,10 +98,11 @@ class ConfigLoader:
         return text[opening_bracket_index + 1:closing_bracket_index].strip()
 
     def parse_click_action(self, text):
-        text = self.text_between(text, '[', ']').strip()
+        text = self.text_between(text, '[', ']')
         if not text:
             return None
-        code = getattr(Mouse, text + '_BUTTON', None)
+        text = text.strip()
+        code = getattr(Mouse, text, None)
         return EmitMouseClick(code)
 
     def parse_codes_action(self, text):
