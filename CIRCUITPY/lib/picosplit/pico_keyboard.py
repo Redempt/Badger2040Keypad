@@ -346,6 +346,7 @@ class Action:
 
 class EmitMouseClick(Action):
     def __init__(self, mouse_code):
+        super().__init__()
         self.mouse_code = mouse_code
 
     def on_key_down(self, key, controller):
